@@ -46,45 +46,43 @@ contract BaseDrop is Ownable {
     }
 
     function fundCampaign(uint256 id, uint256 amount) external {
-    Campaign storage c = campaigns[id];
-    require(msg.sender == c.creator, "not creator");
+        Campaign storage c = campaigns[id];
+        require(msg.sender == c.creator, "not creator");
 
-    c.token.transferFrom(msg.sender, address(this), amount);
-}
-
-function claim(uint256 id, address referrer) external {
-    Campaign storage c = campaigns[id];
-
-    require(c.active, "inactive");
-    require(!hasClaimed[id][msg.sender], "claimed");
-    require(c.claims < c.maxClaims, "max reached");
-
-    hasClaimed[id][msg.sender] = true;
-    c.claims++;
-
-    uint256 total = c.rewardPerClaim;
-
-    if (referrer != address(0) && referrer != msg.sender) {
-        c.token.transfer(referrer, c.referralBonus);
-        total += c.referralBonus;
+        c.token.transferFrom(msg.sender, address(this), amount);
     }
 
-    c.token.transfer(msg.sender, c.rewardPerClaim);
-}
+    function claim(uint256 id, address referrer) external {
+        Campaign storage c = campaigns[id];
 
-function closeCampaign(uint256 id) external {
-    Campaign storage c = campaigns[id];
-    require(msg.sender == c.creator, "not creator");
-    c.active = false;
-}
+        require(c.active, "inactive");
+        require(!hasClaimed[id][msg.sender], "claimed");
+        require(c.claims < c.maxClaims, "max reached");
 
-function withdraw(uint256 id) external {
-    Campaign storage c = campaigns[id];
-    require(msg.sender == c.creator, "not creator");
+        hasClaimed[id][msg.sender] = true;
+        c.claims++;
 
-    uint256 bal = c.token.balanceOf(address(this));
-    c.token.transfer(msg.sender, bal);
-}
+        uint256 total = c.rewardPerClaim;
 
+        if (referrer != address(0) && referrer != msg.sender) {
+            c.token.transfer(referrer, c.referralBonus);
+            total += c.referralBonus;
+        }
 
+        c.token.transfer(msg.sender, c.rewardPerClaim);
+    }
+
+    function closeCampaign(uint256 id) external {
+        Campaign storage c = campaigns[id];
+        require(msg.sender == c.creator, "not creator");
+        c.active = false;
+    }
+
+    function withdraw(uint256 id) external {
+        Campaign storage c = campaigns[id];
+        require(msg.sender == c.creator, "not creator");
+
+        uint256 bal = c.token.balanceOf(address(this));
+        c.token.transfer(msg.sender, bal);
+    }
 }
