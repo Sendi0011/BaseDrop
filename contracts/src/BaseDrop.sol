@@ -52,4 +52,24 @@ contract BaseDrop is Ownable {
     c.token.transferFrom(msg.sender, address(this), amount);
 }
 
+function claim(uint256 id, address referrer) external {
+    Campaign storage c = campaigns[id];
+
+    require(c.active, "inactive");
+    require(!hasClaimed[id][msg.sender], "claimed");
+    require(c.claims < c.maxClaims, "max reached");
+
+    hasClaimed[id][msg.sender] = true;
+    c.claims++;
+
+    uint256 total = c.rewardPerClaim;
+
+    if (referrer != address(0) && referrer != msg.sender) {
+        c.token.transfer(referrer, c.referralBonus);
+        total += c.referralBonus;
+    }
+
+    c.token.transfer(msg.sender, c.rewardPerClaim);
+}
+
 }
