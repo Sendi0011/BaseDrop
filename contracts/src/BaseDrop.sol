@@ -44,4 +44,12 @@ contract BaseDrop is Ownable {
 
         return campaignCount;
     }
+
+    function fundCampaign(uint256 id, uint256 amount) external {
+    Campaign storage c = campaigns[id];
+    require(msg.sender == c.creator, "not creator");
+
+    c.token.transferFrom(msg.sender, address(this), amount);
+}
+
 }
