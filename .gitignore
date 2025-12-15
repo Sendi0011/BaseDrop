@@ -1,0 +1,8 @@
+# Foundry
+contracts/out
+contracts/cache
+
+# Node
+node_modules
+.next
+.env
