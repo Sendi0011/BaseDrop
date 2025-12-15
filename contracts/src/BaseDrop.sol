@@ -72,4 +72,19 @@ function claim(uint256 id, address referrer) external {
     c.token.transfer(msg.sender, c.rewardPerClaim);
 }
 
+function closeCampaign(uint256 id) external {
+    Campaign storage c = campaigns[id];
+    require(msg.sender == c.creator, "not creator");
+    c.active = false;
+}
+
+function withdraw(uint256 id) external {
+    Campaign storage c = campaigns[id];
+    require(msg.sender == c.creator, "not creator");
+
+    uint256 bal = c.token.balanceOf(address(this));
+    c.token.transfer(msg.sender, bal);
+}
+
+
 }
