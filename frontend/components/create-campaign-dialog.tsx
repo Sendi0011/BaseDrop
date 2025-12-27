@@ -163,7 +163,7 @@ export function CampaignCard({ campaign, onUpdate, userAddress }: CampaignCardPr
       <CardContent className="flex-1 flex flex-col gap-4">
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm">
-            <Gift className="h-5 w-5 text-muted-foreground" />
+            <Gift className="h-4 w-4 text-muted-foreground" />
             <span className="text-muted-foreground">Reward:</span>
             <span className="font-medium">{(Number(campaign.rewardPerClaim) / 1e18).toFixed(4)}</span>
           </div>
