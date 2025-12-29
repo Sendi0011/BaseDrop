@@ -229,7 +229,7 @@ export function CampaignCard({ campaign, onUpdate, userAddress }: CampaignCardPr
                   <DialogHeader>
                     <DialogTitle>Fund Campaign</DialogTitle>
                     <DialogDescription>
-                      Add tokens to your campaign. Make sure to approve the contract first.
+                      Add tokens to your campaign. Make sure to approve contract first.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
