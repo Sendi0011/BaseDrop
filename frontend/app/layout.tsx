@@ -6,8 +6,15 @@ import { PrivyProvider } from "@privy-io/react-auth"
 import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+})
 
 export const metadata: Metadata = {
   title: "BaseDrop - Token Airdrops with Referral Rewards",
@@ -37,11 +44,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID
+
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
+      >
         <PrivyProvider
-          appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+          appId={privyAppId || ""}
           config={{
             appearance: {
               theme: "dark",
@@ -55,6 +66,7 @@ export default function RootLayout({
           {children}
           <Toaster />
         </PrivyProvider>
+
         <Analytics />
       </body>
     </html>
